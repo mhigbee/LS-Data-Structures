@@ -23,10 +23,11 @@ class LinkedList {
     if (this.head) {
       cache.push(this.head);
       delete this[keys[0]];
-      delete this.head;
     }
-    if (cache.length) this.head = this[cache[0].next];
-    return cache.pop().value;
+    if (cache.length) {
+      this.head = this[cache[0].next];
+      return cache.pop().value;
+    }
   }
   contains(y) {
     const val = Object.values(this);
