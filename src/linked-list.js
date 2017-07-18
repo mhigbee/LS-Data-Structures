@@ -18,14 +18,13 @@ class LinkedList {
     this.tail = this[prop];
   }
   removeHead() {
-    let keys = Object.keys(this);
+    const keys = Object.keys(this);
     const cache = [];
     if (this.head) {
       cache.push(this.head);
       delete this[keys[0]];
       delete this.head;
     }
-    keys = Object.keys(this);
     if (cache.length) this.head = this[cache[0].next];
     return cache.pop().value;
   }
