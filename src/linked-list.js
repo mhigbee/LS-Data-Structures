@@ -7,20 +7,27 @@ class LinkedList {
   addToTail(x) {
     const val = Object.keys(this);
     let prop;
+    let next;
     if (!this.tail) prop = 1;
-    else prop = val[val.length - 3] + 1;
-    this[prop] = { value: x };
-    this.reassign();
+    else {
+      prop = parseInt(val[val.length - 3], 10) + 1;
+      this.tail.next = prop;
+    }
+    this[prop] = { value: x, next: null };
+    if (!this.head) this.head = this[prop];
+    this.tail = this[prop];
   }
   removeHead() {
-    const keys = Object.keys(this);
+    let keys = Object.keys(this);
     const cache = [];
-    if (keys.length > 2) {
-      cache.push(this[keys[0]]);
+    if (this.head) {
+      cache.push(this.head);
       delete this[keys[0]];
+      delete this.head;
     }
-    this.reassign();
-    if (cache.length) return cache.pop().value;
+    keys = Object.keys(this);
+    if (cache.length) this.head = this[cache[0].next];
+    return cache.pop().value;
   }
   contains(y) {
     const val = Object.values(this);
@@ -28,16 +35,6 @@ class LinkedList {
       if (val[i] && val[i].value === y) return true;
     }
     return false;
-  }
-  reassign() {
-    const after = Object.keys(this);
-    if (after.length > 2) {
-      this.head = this[after[0]];
-      this.tail = this[after[after.length - 3]];
-    } else {
-      this.head = null;
-      this.tail = null;
-    }
   }
 }
 
