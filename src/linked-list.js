@@ -5,7 +5,10 @@ class LinkedList {
     // Do not modify anything inside of the constructor
   }
   addToTail(x) {
-    const prop = Object.keys(this).length - 1;
+    const val = Object.keys(this);
+    let prop;
+    if (!this.tail) prop = 1;
+    else prop = val[val.length - 3] + 1;
     this[prop] = { value: x };
     this.reassign();
   }
