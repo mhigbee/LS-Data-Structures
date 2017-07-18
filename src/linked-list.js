@@ -20,7 +20,7 @@ class LinkedList {
       delete this[keys[0]];
     }
     this.reassign();
-    if (cache.length !== 0) return cache.pop().value;
+    if (cache.length) return cache.pop().value;
   }
   contains(y) {
     const val = Object.values(this);
