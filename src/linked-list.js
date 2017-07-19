@@ -5,34 +5,24 @@ class LinkedList {
     // Do not modify anything inside of the constructor
   }
   addToTail(x) {
-    const val = Object.keys(this);
-    let prop;
-    let next;
-    if (!this.tail) prop = 1;
-    else {
-      prop = parseInt(val[val.length - 3], 10) + 1;
-      this.tail.next = prop;
-    }
-    this[prop] = { value: x, next: null };
-    if (!this.head) this.head = this[prop];
-    this.tail = this[prop];
+    const node = { value: x, next: null };
+    if (!this.head) this.head = node;
+    else this.tail.next = node;
+    this.tail = node;
   }
   removeHead() {
-    const keys = Object.keys(this);
-    const cache = [];
     if (this.head) {
-      cache.push(this.head);
-      delete this[keys[0]];
-    }
-    if (cache.length) {
-      this.head = this[cache[0].next];
-      return cache.pop().value;
+      const cache = this.head.value;
+      this.head = this.head.next;
+      if (!this.head) this.tail = null;
+      return cache;
     }
   }
   contains(y) {
-    const val = Object.values(this);
-    for (let i = 0; i < val.length; i++) {
-      if (val[i] && val[i].value === y) return true;
+    let current = this.head;
+    while (current) {
+      if (current.value === y) return true;
+      current = current.next;
     }
     return false;
   }
