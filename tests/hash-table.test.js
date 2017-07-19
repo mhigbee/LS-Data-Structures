@@ -19,6 +19,7 @@ describe('HashTable', () => {
 
   it('should save and return values by key', () => {
     hashTable.insert('hello', 'there');
+    console.log(hashTable);
     expect(hashTable.retrieve('hello')).toBe('there');
   });
 

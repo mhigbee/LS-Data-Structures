@@ -8,23 +8,36 @@ class HashTable {
     // Do not modify anything inside of the constructor
   }
   insert(key, value) {
-    if (!this[key]) this[key] = value;
-    else {
-      const cache = [[key, this[key]]];
-      cache.push([key, value]);
-      this[key] = cache;
+    const hash = this.getHash(key);
+    let bucket;
+    if (!this.storage.get(hash)) bucket = [];
+    else bucket = this.storage.get(hash);
+    this.storage.set(hash, bucket);
+    const myBucket = function (k, ind) {
+      if (k === key) {
+        k[ind + 1] = value;
+        return;
+      }
+    };
+    this.storage.each(myBucket);
+    bucket.push(key, value);
+    this.resize(this.storage.length);
+  }
+  getHash(key) {
+    if (typeof key === 'number' && Number.isInteger(key) && key < this.limit) {
+      return key;
     }
-    this.resize();
+    const hash = getIndexBelowMax(key, this.limit);
+    return hash;
   }
   remove(key) {
-    if (this[key]) delete this[key];
+    this.storage.set(this.getHash(key), undefined);
   }
   retrieve(key) {
-    return this[key];
+    return this.storage.get(this.getHash(key));
   }
-  resize() {
-    const keys = Object.keys(this);
-    if (keys.length >= (this.limit * 0.75)) this.limit *= 2;
+  resize(x) {
+    if (x >= this.limit * 0.75) this.limit *= 2;
   }
 }
 
